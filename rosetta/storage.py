@@ -1,6 +1,4 @@
-from django.core.cache import get_cache
 from django.conf import settings
-from django.utils import importlib
 from django.core.exceptions import ImproperlyConfigured
 from rosetta.conf import settings as rosetta_settings
 import hashlib
@@ -9,7 +7,17 @@ import six
 import django
 
 
-cache = get_cache(rosetta_settings.ROSETTA_CACHE_NAME)
+try:
+    from django.core.cache import caches
+    cache = caches[rosetta_settings.ROSETTA_CACHE_NAME]
+except ImportError:
+    from django.core.cache import get_cache
+    cache = get_cache(rosetta_settings.ROSETTA_CACHE_NAME)
+
+try:
+    import importlib
+except ImportError:
+    from django.utils import importlib
 
 
 class BaseRosettaStorage(object):
@@ -82,9 +90,9 @@ class CacheRosettaStorage(BaseRosettaStorage):
 
         # Make sure we're not using DummyCache
         if 'dummycache' in settings.CACHES[rosetta_settings.ROSETTA_CACHE_NAME]['BACKEND'].lower():
-            raise ImproperlyConfigured("You can't use the CacheRosettaStorage if your cache isn't correctly set up (you are use the DummyCache cache backend).")
+            raise ImproperlyConfigured("You can't use the CacheRosettaStorage if your cache isn't correctly set up (you are using the DummyCache cache backend).")
 
-        # Make sure the actually actually works
+        # Make sure the cache actually works
         try:
             self.set('rosetta_cache_test', 'rosetta')
             if not self.get('rosetta_cache_test') == 'rosetta':

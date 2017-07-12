@@ -1,6 +1,5 @@
 {% extends "rosetta/base.html" %}
 {% load i18n %}
-{% load url from future %}
 
 {% block pagetitle %}{{block.super}} - {% trans "Language selection" %}{% endblock %}
 
@@ -40,9 +39,9 @@
                 </thead>
                 <tbody>
                     {% for app,path,po in pos %}
-                    <tr class="{% cycle row1,row2 %}">
-                        <td><a href="{% url 'rosetta-language-selection' lid forloop.counter0 %}{% if do_django %}?django{% endif %}{% if do_rosetta %}?rosetta{% endif %}">{{ app|title }}</a></td>
-                        <td class="ch-progress r">{{po.percent_translated|floatformat:2}}%</td>
+                    <tr class="{% cycle 'row1' 'row2' %}">
+                        <td><a href="{% url 'rosetta-language-selection' lid forloop.counter0 %}">{{ app|title }}</a></td>
+                        <td class="ch-progress r">{{po.percent_translated}}%</td>
                         {% with po.untranslated_entries|length as len_untranslated_entries %}
                         <td class="ch-messages r">{{po.translated_entries|length|add:len_untranslated_entries}}</td>
                         {% endwith %}
