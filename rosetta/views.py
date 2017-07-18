@@ -376,7 +376,7 @@ def download_file(request):
 @user_passes_test(lambda user: can_translate(user), settings.LOGIN_URL)
 def commit_changes(request):
     try:
-        Popen([COMMIT_SCRIPT_EXECUTABLE])
+        Popen([COMMIT_SCRIPT_EXECUTABLE], stdout=os.subprocess.PIPE)
     #TODO: Handle right exceptions
     except:
         pass
