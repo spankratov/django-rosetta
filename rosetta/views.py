@@ -375,11 +375,7 @@ def download_file(request):
 @never_cache
 @user_passes_test(lambda user: can_translate(user), settings.LOGIN_URL)
 def commit_changes(request):
-    try:
-        Popen([COMMIT_SCRIPT_EXECUTABLE], stdout=os.subprocess.PIPE)
-    #TODO: Handle right exceptions
-    except:
-        pass
+    Popen([COMMIT_SCRIPT_EXECUTABLE], shell=True)
 
     return HttpResponseRedirect(reverse('rosetta-home'))
 
