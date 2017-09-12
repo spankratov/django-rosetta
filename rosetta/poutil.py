@@ -57,6 +57,11 @@ def find_pos(lang, project_apps=True, django_apps=False, third_party_apps=False)
             cache.set('rosetta_django_paths', django_paths, 60 * 60)
         paths = paths + django_paths
     # settings
+    if settings.LOCALE_PATHS_FUNC:
+        for localepath in settings.LOCALE_PATHS_FUNC():
+            if os.path.isdir(localepath):
+                paths.append(localepath)
+
     for localepath in settings.LOCALE_PATHS:
         if os.path.isdir(localepath):
             paths.append(localepath)
