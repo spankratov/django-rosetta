@@ -59,9 +59,9 @@ def find_pos(lang, project_apps=True, django_apps=False, third_party_apps=False)
     # settings
     try:
         settings.LOCALE_PATHS_FUNC
-    except NameError:
+    except AttributeError:
         settings.LOCALE_PATHS_FUNC = None
-        
+
     if settings.LOCALE_PATHS_FUNC:
         for localepath in settings.LOCALE_PATHS_FUNC():
             if os.path.isdir(localepath):
