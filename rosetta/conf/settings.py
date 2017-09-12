@@ -91,4 +91,3 @@ SHOW_AT_ADMIN_PANEL = getattr(settings, 'ROSETTA_SHOW_AT_ADMIN_PANEL', False)
 
 ENABLE_COMMIT = getattr(settings, 'ROSETTA_ENABLE_COMMIT', False)
 COMMIT_SCRIPT_EXECUTABLE = getattr(settings, 'ROSETTA_COMMIT_SCRIPT_EXECUTABLE', 'commit.sh')
-LOCALE_PATHS_FUNC = getattr(settings, 'LOCALE_PATHS_FUNC', lambda : [])
