@@ -376,7 +376,7 @@ def download_file(request):
 @user_passes_test(lambda user: can_translate(user), settings.LOGIN_URL)
 def commit_changes(request):
     if COMMIT_FUNC:
-        COMMIT_FUNC()
+        COMMIT_FUNC(request.user.__str__())
     else:
         Popen([COMMIT_SCRIPT_EXECUTABLE], shell=True)
 
