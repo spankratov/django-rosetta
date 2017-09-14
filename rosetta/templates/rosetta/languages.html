@@ -24,7 +24,7 @@
     {% if pos %}
 
         <div class="module">
-            <h2>{{language}}</h2>
+            <h2 onclick="$(this).next().toggle();if($(this).find('span').text()=='-')$(this).find('span').text('+');else $(this).find('span').text('-');"><span style="cursor: pointer; padding: 12px;font-weight: bolder; font-size: 16px;">-</span>{{language}}</h2>
             <table cellspacing="0">
                 <thead>
                     <tr>
