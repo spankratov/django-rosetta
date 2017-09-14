@@ -439,7 +439,7 @@ def list_languages(request, do_session_warn=False):
 
 
 def get_app_name(path):
-    app = path.split("/locale")[0].split("/")[-1]
+    app = path.split("/locale/")[0].split("/")[-1]
     return app
 
 
