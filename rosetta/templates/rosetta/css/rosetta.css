@@ -34,3 +34,9 @@ div.module {margin-bottom: 20px;}
 #toolbar #translate-all { float:right}
 #toolbar form { float:left; }
 #changelist table thead th { padding: 2px 5px; }
+
+h1 img.logo { height: 42px }
+#branding h1#site-name sup { font-size: 10px; color: red}
+#branding h1#site-name sub { font-size: 10px; color: #f5dd5d }
+#branding h1#site-name a { color: aqua }
+#header { line-height: unset }
