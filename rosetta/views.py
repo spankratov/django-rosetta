@@ -245,10 +245,10 @@ def home(request):
                     ref_entry = ref_pofile.find(o.msgid)
                     if ref_entry is not None and ref_entry.msgstr:
                         o.ref_txt = ref_entry.msgstr
-            LANGUAGES = list(settings.LANGUAGES) + [('msgid', 'MSGID')]
+            LANGUAGES = list(settings.ROSETTA_LANGUAGES) + [('msgid', 'MSGID')]
         else:
             ref_lang = None
-            LANGUAGES = settings.LANGUAGES
+            LANGUAGES = settings.ROSETTA_LANGUAGES
 
         page = 1
         if 'page' in request.GET:
@@ -270,7 +270,7 @@ def home(request):
         rosetta_messages = paginator.page(page).object_list
         main_language = None
         if rosetta_settings.MAIN_LANGUAGE and rosetta_settings.MAIN_LANGUAGE != rosetta_i18n_lang_code:
-            for language in settings.LANGUAGES:
+            for language in settings.ROSETTA_LANGUAGES:
                 if language[0] == rosetta_settings.MAIN_LANGUAGE:
                     main_language = _(language[1])
                     break
@@ -406,7 +406,7 @@ def list_languages(request, do_session_warn=False):
     project_apps = rosetta_i18n_catalog_filter in ('all', 'project')
 
     has_pos = False
-    for language in settings.LANGUAGES:
+    for language in settings.ROSETTA_LANGUAGES:
         if not can_translate_language(request.user, language[0]):
             continue
 
@@ -450,7 +450,7 @@ def lang_sel(request, langid, idx):
     Selects a file to be translated
     """
     storage = get_storage(request)
-    if langid not in [l[0] for l in settings.LANGUAGES] or not can_translate_language(request.user, langid):
+    if langid not in [l[0] for l in settings.ROSETTA_LANGUAGES] or not can_translate_language(request.user, langid):
         raise Http404
     else:
 
@@ -464,7 +464,7 @@ def lang_sel(request, langid, idx):
                key=get_app_name)[int(idx)]
 
         storage.set('rosetta_i18n_lang_code', langid)
-        storage.set('rosetta_i18n_lang_name', six.text_type([l[1] for l in settings.LANGUAGES if l[0] == langid][0]))
+        storage.set('rosetta_i18n_lang_name', six.text_type([l[1] for l in settings.ROSETTA_LANGUAGES if l[0] == langid][0]))
         storage.set('rosetta_i18n_fn', file_)
         po = pofile(file_)
         for entry in po:
@@ -487,7 +487,7 @@ def lang_sel(request, langid, idx):
 
 def ref_sel(request, langid):
     storage = get_storage(request)
-    ALLOWED_LANGUAGES = [l[0] for l in settings.LANGUAGES] + ['msgid']
+    ALLOWED_LANGUAGES = [l[0] for l in settings.ROSETTA_LANGUAGES] + ['msgid']
 
     if langid not in ALLOWED_LANGUAGES:
         raise Http404
